@@ -1,0 +1,4 @@
+name: Unpack
+debug: false
+files:
+  - name: src/unpack.ps1
