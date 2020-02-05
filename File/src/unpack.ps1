@@ -26,10 +26,16 @@ if ($NexssStdout.unpack) {
     
     $extractedPaths = @()
     foreach ($sourceFile in $NexssStdout.unpack) { 
-        $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))
+        $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))        
         $targetPath = Join-Path -Path $unpackFolder -ChildPath $destinationFolder  
-        Expand-Archive -Force -LiteralPath $sourceFile -DestinationPath $targetPath
-        $extractedPaths += $targetPath
+        if ( ! ( Test-Path $targetPath) -or $NexssStdout.nxsForce) {     
+            [Console]::Error.WriteLine("NEXSS/info: Unpacking $sourceFile to the location $targetPath")           
+            Expand-Archive -Force -LiteralPath $sourceFile -DestinationPath $targetPath     
+        }
+        else {
+            # Overwrite - use --nxsForce
+        }
+        $extractedPaths += $targetPath 
     } 
 
     $NexssStdout | Add-Member -Force -NotePropertyMembers  @{paths = $extractedPaths }
