@@ -11,7 +11,7 @@ $NexssStdout = $NexssStdin | ConvertFrom-Json
 # $env:DOWNLOAD_FOLDER - is specified in the config.env of this module
 
 if ($NexssStdout.unpack) {
-    if ($NexssStdout.cache) {
+    if ($NexssStdout.unpackPathCache) {
         $unpackFolder = "$($env:NEXSS_CACHE_PATH)/$env:DOWNLOAD_FOLDER"
     }
     else {
@@ -23,17 +23,20 @@ if ($NexssStdout.unpack) {
     if ( ! ( Test-Path $unpackFolder)) {    
         New-Item -ItemType "directory" -Path $unpackFolder | Out-Null
     }
+
+    $total = $NexssStdout.files.Count
+    [Console]::Error.WriteLine("NEXSS/info:Starting Unpacking $total files(s)..")
     
     $extractedPaths = @()
     foreach ($sourceFile in $NexssStdout.unpack) { 
         $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))        
         $targetPath = Join-Path -Path $unpackFolder -ChildPath $destinationFolder  
-        if ( ! ( Test-Path $targetPath) -or $NexssStdout.nxsForce) {     
+        if ( ! ( Test-Path $targetPath) -and !$NexssStdout.unpackNocache) {     
             [Console]::Error.WriteLine("NEXSS/info: Unpacking $sourceFile to the location $targetPath")           
             Expand-Archive -Force -LiteralPath $sourceFile -DestinationPath $targetPath     
         }
-        else {
-            # Overwrite - use --nxsForce
+        else {            
+            [Console]::Error.WriteLine("NEXSS/ok:$targetPath already exists. Use --unpackNocache to overwrite")
         }
         $extractedPaths += $targetPath 
     } 
