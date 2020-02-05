@@ -12,7 +12,7 @@ $NexssStdout = $NexssStdin | ConvertFrom-Json
 
 if ($NexssStdout.unpack) {
     if ($NexssStdout.unpackPathCache) {
-        $unpackFolder = "$($env:NEXSS_CACHE_PATH)/$env:DOWNLOAD_FOLDER"
+        $unpackFolder = "$($env:NEXSS_CACHE_PATH)\$env:DOWNLOAD_FOLDER\"
     }
     else {
         $unpackFolder = $NexssStdout.cwd
@@ -43,6 +43,8 @@ if ($NexssStdout.unpack) {
 
     $NexssStdout | Add-Member -Force -NotePropertyMembers  @{paths = $extractedPaths }
     $NexssStdout.PSObject.Properties.Remove("files")
+    $NexssStdout.PSObject.Properties.Remove("unpack")
+    $NexssStdout.PSObject.Properties.Remove("unpackPathCache")
 }
 
 # STDOUT
