@@ -36,7 +36,7 @@ $extractedPaths = @()
 foreach ($sourceFile in $inFieldValue_1) { 
     $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))        
     $targetPath = Join-Path -Path $unpackFolder -ChildPath $destinationFolder  
-    if ( ! ( Test-Path $targetPath) -and !$NexssStdout.unpackNocache) {     
+    if ( ! ( Test-Path $targetPath) -or $NexssStdout.unpackNocache) {     
         nxsInfo("Unpacking $sourceFile to the location $targetPath")  
             
         if (![System.IO.Path]::IsPathRooted($sourceFile)) {

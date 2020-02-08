@@ -6,7 +6,7 @@ Unpack different compression formats. Now support ZIP.
 
 ```sh
 # downloads to files to the currentfolder/downloads
-nexss FS/File --unpack=C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tcl8610-src.zip --unpack=C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip --unpack=C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip --unpackPathCache
+nexss FS/File C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tcl8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip --unpackPathCache
 
 
 
