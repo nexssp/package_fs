@@ -1,14 +1,15 @@
 # Nexss PROGRAMMER 2.0
 
-Unpack different compression formats. Now support ZIP.
+Unpack different compression formats.
 
 ## Examples
 
 ```sh
 # downloads to files to the currentfolder/downloads
-nexss FS/File C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tcl8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip --unpackPathCache
+nexss FS/Unpack C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tcl8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip C:\\Users\\mapoart\\.nexss\\cache\\downloads\\tk8610-src.zip --unpackPathCache
 
-
+--unpacksFolder # where to store unpacked files
+--unpackPathCache # will download to NEXSS_CACHE_PATH/downloads folder
 
 # if you add --cache it will unpack to the ${env:NEXSS_CACHE_PATH}/downloads
 # 'downloads' is setup in the config.env

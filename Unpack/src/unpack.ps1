@@ -1,32 +1,32 @@
 # Nexss PROGRAMMER 2.0 - Package Download
 $input | . "$($env:NEXSS_PACKAGES_PATH)/Nexss/Lib/NexssIn.ps1"
 # This one will be removed after package run ends
-$nxsParameters = @("unpackPathCache")
+$nxsParameters = @("unpackPathCache", "unpacksFolder")
 
 . "$($env:NEXSS_PACKAGES_PATH)/Nexss/Lib/EasyExtract.ps1"
 
-if ($NexssStdout.unpackPathCache -and $NexssStdout.destinationFolder) { 
-    nxsError("You have specified --unpackPathCache and --destinationFolder");
+if ($NexssStdout.unpackPathCache -and $NexssStdout.unpacksFolder) { 
+    nxsError("You have specified --unpackPathCache and --unpacksFolder");
     nxsError("Remove one of them or use --nxsDelete feature to remove it.")
     break
 }
 
 if ($NexssStdout.unpackPathCache) {
-    $unpackFolder = Join-Path $env:NEXSS_CACHE_PATH $env:DOWNLOAD_FOLDER
+    $unpacksFolder = Join-Path $env:NEXSS_CACHE_PATH $env:DOWNLOAD_FOLDER
 }
 else {
-    if ($NexssStdout.destinationFolder) {
-        $unpackFolder = $NexssStdout.destinationFolder
+    if ($NexssStdout.unpacksFolder) {
+        $unpacksFolder = $NexssStdout.unpacksFolder
     }
     else {
-        $unpackFolder = $NexssStdout.cwd
+        $unpacksFolder = $NexssStdout.cwd
     }
 }
     
-$NexssStdout | Add-Member -Force -NotePropertyMembers  @{unpackFolder = "$unpackFolder" }
+$NexssStdout | Add-Member -Force -NotePropertyMembers  @{unpacksFolder = "$unpacksFolder" }
 
-if ( ! ( Test-Path $unpackFolder)) {    
-    New-Item -ItemType "directory" -Path $unpackFolder | Out-Null
+if ( ! ( Test-Path $unpacksFolder)) {    
+    New-Item -ItemType "directory" -Path $unpacksFolder | Out-Null
 }
 
 $total = $inFieldValue_1.Count
@@ -35,7 +35,7 @@ nxsInfo("Starting Unpacking $total files(s)..")
 $extractedPaths = @()
 foreach ($sourceFile in $inFieldValue_1) { 
     $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))        
-    $targetPath = Join-Path -Path $unpackFolder -ChildPath $destinationFolder  
+    $targetPath = Join-Path -Path $unpacksFolder -ChildPath $destinationFolder  
     if ( ! ( Test-Path $targetPath) -or $NexssStdout.unpackNocache) {     
         nxsInfo("Unpacking $sourceFile to the location $targetPath")  
             

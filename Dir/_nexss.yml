@@ -1,0 +1,4 @@
+name: FS/Get
+debug: false
+files:
+  - name: src/get.js
