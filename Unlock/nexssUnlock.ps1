@@ -8,6 +8,11 @@ $input | . "$($env:NEXSS_PACKAGES_PATH)/Nexss/Lib/NexssIn.ps1"
 $NexssStdout | Add-Member -Force -NotePropertyMembers  @{test = "test" }
 
 foreach ($fileOrFolder in $inFieldValue_1) { 
+    # We need to have absolute path
+    if (-Not [System.IO.Path]::IsPathRooted($fileOrFolder)) {
+        $fileOrFolder = Join-Path $NexssStdout.cwd "$fileOrFolder" -Resolve 
+    }
+    nxsInfo($fileOrFolder)
     If ((Test-Path -Path $fileOrFolder) -eq $false) { 
         nxsError("File or directory does not exist.")
     } 
