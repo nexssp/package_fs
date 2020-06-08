@@ -1,7 +1,6 @@
 const {
   nxsError,
   nxsInfo,
-  nxsDebug,
 } = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssLog.js`);
 
 const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js`);

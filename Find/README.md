@@ -22,10 +22,13 @@ find files, with content search.
 ```sh
 nexss FS/Find invoice ./invoices # finds files which contains word 'invoice' in the content (second or last parameter is where to look)
 nexss FS/Find invoice faktura ./invoices # here will find faktura and invoice in the file content in the folder 'invoices'
-nexss FS/Find --pathMatch=*2020.txt # find only files without checking the content
+nexss FS/Find --pathMatch=*2020.txt # find only files without checking the content, current folder
 nexss FS/Find faktura --pathMatch=*2020.txt --inTypes=txt --caseSensitive # find in txt files, using caseSensitive, path match *2020.txts
 nexss FS/Find faktura --inTypes=txt --pathMatch=*something* --pathMatch=!*8* # will match path something, but not with number 8
+nexss FS/Find --pathMatch=*something*
 ```
+
+You can add custom types for search, see at ripgrep github page.
 
 ## More info
 
