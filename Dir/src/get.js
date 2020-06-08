@@ -1,7 +1,7 @@
 // Nexss PROGRAMMER 2.0.0 - FS/Get
 const { getFiles } = require("../lib/files");
 const {
-  nxsError
+  nxsError,
 } = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssLog.js`);
 
 const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js`);

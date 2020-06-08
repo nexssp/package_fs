@@ -2,6 +2,10 @@
 
 find files, with content search.
 
+## To implement
+
+- Sorting based on ripgrep eg: –sort path|modified|accessed|created
+
 ## Parameters
 
 - nexss FS/Find pattern1 pattern2 paternX folder --param1 --param2
@@ -11,6 +15,7 @@ find files, with content search.
 - **inTypes** (can be multiple) - will search by types (if type is wrong will display list of available types - are the same as -- ripgrep --type-list)
 - **inZip** - search in compressed files
 - **caseSensitive** - enable case sensitive search
+- **sort**,**sortr** - ascending,descending sorting. possible values: accessed, created, modified, none, path
 
 ## Examples
 

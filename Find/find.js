@@ -77,6 +77,25 @@ if (NexssStdout.inZip) {
   delete NexssStdout.inZip;
 }
 
+function validateSort(v) {
+  const values = "path,modified,accessed,created";
+  if (("," + values + ",").substr("+" + v + ",") < 0) {
+    throw new Error("Sort can be only: " + values);
+  }
+}
+
+if (NexssStdout.sort) {
+  validateSort(NexssStdout.sort);
+  params = params.concat(["--sort", NexssStdout.sort]);
+  delete NexssStdout.inZip;
+}
+
+if (NexssStdout.sortr) {
+  validateSort(NexssStdout.sortr);
+  params = params.concat(["--sortr", NexssStdout.sortr]);
+  delete NexssStdout.inZip;
+}
+
 if (NexssStdout.inPath) {
   params = params.concat(NexssStdout.inPath);
   delete NexssStdout.inPath;
@@ -110,18 +129,17 @@ if (r) {
   }
 
   NexssStdout[NexssStdout.resultField_1] = result;
+  NexssStdout.FSFindTotal = result ? result.length : 0;
 } else {
-  nxsError("There was an error:");
+  // nxsError("There was an error:");
+  NexssStdout.FSFindTotal = 0;
   if (rg.stderr.startsWith("unrecognized file type:")) {
     nxsInfo(require("child_process").execSync("rg --type-list").toString());
+    nxsError("Above is the list of available types. (Ripgrep)");
+  } else if (rg.stderr.indexOf("USAGE:") > -1) {
+    nxsError(rg.stderr.split("USAGE:")[0]);
   }
-
-  nxsError(rg.stderr);
-  nxsError("Above is the list of available types. (Ripgrep)");
-  process.exit(1);
 }
-
-NexssStdout.FSFindTotal = result ? result.length : 0;
 
 delete NexssStdout.nxsIn;
 delete NexssStdout.resultField_1;
