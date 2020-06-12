@@ -28,7 +28,7 @@ nexss FS/Find faktura --inTypes=txt --pathMatch=*something* --pathMatch=!*8* # w
 nexss FS/Find --pathMatch=*something*
 ```
 
-You can add custom types for search, see at ripgrep github page.
+You can add custom types for search, see at ripgrep github page <https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md>.
 
 ## More info
 
