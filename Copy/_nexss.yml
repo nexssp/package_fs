@@ -1,0 +1,15 @@
+name: FS/Copy
+files:
+  - name: copy.js
+input:
+  - name: _destination
+    validate:
+      - type: required
+        message: <Field> is required. Can have one or the same amount of values as source (nxsIn) Field.
+  - name: nxsIn
+    validate:
+      - type: required
+        message: Please add files/folders to copy eg. 'nexss FS/Copy myfile.jpg --_destination=.'
+commands:
+  - name: init
+    command: npm install
