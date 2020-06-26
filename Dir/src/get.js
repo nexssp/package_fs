@@ -24,14 +24,9 @@ if (NexssStdout.FSGetPath) {
   }
 }
 
-// Modify data
-//NexssStdout.NodeJSOutput = `Hello from NodeJS! ${process.version}`;
-//   let fieldOut = "nxsOut";
-//   if (NexssStdout.nxsOutAs) {
-//     fieldOut = NexssStdout.nxsOutAs;
-//   }
 process.chdir(NexssStdout.cwd);
-NexssStdout[NexssStdout.resultField_1] = getFiles(NexssStdout.nxsIn[0]);
+NexssStdout["nxsOut"] = getFiles(NexssStdout.nxsIn[0]);
+
 delete NexssStdout.resultField_1;
 delete NexssStdout.nxsIn;
 process.stdout.write(JSON.stringify(NexssStdout));
