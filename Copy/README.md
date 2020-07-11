@@ -10,6 +10,7 @@ nexss FS/Copy --nxsIn=myfile,myfolder --_destination='./currentFolder,SecondDest
 nexss FS/Copy myfile1 myfile2 --destination=x1,x2,x3 # error, destination can be one or the same as input files and/or folders
 nexss FS/Copy README.md printers.ahk --_destination='folder1,folder2' # Folders will be created
 nexss FS/Copy README.md printers.ahk --_destination='folder1,folder2' --_dry # This will not copy any files nor folders but will display source/destination pairs.
+nexss FS/Copy README.md printers.ahk --_destination='folder1,folder2' --_delete --_sure # it will delete sources folders and files. You must put --sure also if you want to delete, this is to prevent unwanted deletion
 ```
 
 ## To Implement

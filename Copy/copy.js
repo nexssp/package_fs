@@ -1,12 +1,15 @@
 const {
   nxsError,
   nxsInfo,
+  nxsWarn,
+  nxsOk,
 } = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssLog.js`);
 const {
   existsSync,
   mkdirSync,
   copyFileSync,
   lstatSync,
+  unlinkSync,
   constants,
 } = require("fs");
 const { COPYFILE_EXCL } = constants;
@@ -58,30 +61,55 @@ for (let x = 0; x < fromCopy.length; x++) {
   prepared.push({ src, dst });
 }
 
+const inspect = require("util").inspect;
+
 if (NexssStdout._dry) {
   nxsInfo(`_dry option enabled, nothing will be copied.`);
-  console.log(require("util").inspect(prepared));
+  console.log(inspect(prepared));
+  NexssStdout.nxsStop = true;
+  process.stdout.write(JSON.stringify(NexssStdout));
   process.exit(0);
 }
-for (const iterator of prepared) {
-  nxsInfo(`FS/Copy: Processing: ${iterator}`);
-  const fullPathDestination = resolve(iterator.dst);
-  if (!existsSync(fullPathDestination)) {
+let rimraf;
+if (NexssStdout._delete) {
+  if (!NexssStdout._sure) {
     nxsError(
-      `Folder/File '${fullPathDestination}' does not exist. Creating it..`
+      `To delete sources during copy you MUST put --_delete and --_sure`
     );
-    mkdirSync(fullPathDestination);
+    NexssStdout.nxsStop = true;
+    process.stdout.write(JSON.stringify(NexssStdout));
+    process.exit(0);
   }
+  rimraf = require("rimraf");
+}
 
+for (const iterator of prepared) {
+  nxsInfo(`FS/Copy: Processing: ${inspect(iterator)}`);
+  let fullPathDestination = resolve(iterator.dst);
   if (lstatSync(iterator.src).isDirectory()) {
+    fullPathDestination = join(fullPathDestination, basename(iterator.src));
+
+    if (!existsSync(fullPathDestination)) {
+      nxsWarn(
+        `Folder/File '${fullPathDestination}' does not exist. Creating it..`
+      );
+      mkdirSync(fullPathDestination, { recursive: true });
+    }
+
     options = {};
     options.cover = false;
     copydir.sync(iterator.src, fullPathDestination, options);
-
-    // fs.rmdirSync(projectPath);
+    if (NexssStdout._delete && NexssStdout._sure) {
+      rimraf.sync(iterator.src);
+      nxsOk(`Folder ${iterator.src} has been deleted.`);
+    }
   } else {
     const filename = basename(iterator.src);
     copyFileSync(iterator.src, join(iterator.dst, filename));
+    if (NexssStdout._delete && NexssStdout._sure) {
+      unlinkSync(iterator.src);
+      nxsOk(`File ${iterator.src} has been deleted.`);
+    }
   }
 }
 
