@@ -1,0 +1,4 @@
+name: FS/Exists
+debug: false
+files:
+  - name: exists.js
