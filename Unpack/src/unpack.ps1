@@ -34,7 +34,10 @@ nxsInfo("Starting Unpacking $total files(s)..")
     
 $extractedPaths = @()
 foreach ($sourceFile in $inFieldValue_1) { 
-    $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))        
+    $destinationFolder = [io.path]::GetFileNameWithoutExtension($sourceFile.SubString($sourceFile.LastIndexOf('/') + 1))   
+    if($destinationFolder.LastIndexOf(".tar") -gt 1){        
+        $destinationFolder = [io.path]::GetFileNameWithoutExtension($destinationFolder)
+    }
     $targetPath = Join-Path -Path $unpacksFolder -ChildPath $destinationFolder  
     if ( ! ( Test-Path $targetPath) -or $NexssStdout.unpackNocache) {     
         nxsInfo("Unpacking $sourceFile to the location $targetPath")  
