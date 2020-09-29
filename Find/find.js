@@ -105,12 +105,23 @@ if (NexssStdout.inPath) {
 if (NexssStdout.debug || NexssStdout.nxsLearning) {
   nxsInfo("rg " + params.join(" "));
 }
+try {
+  var rg = spawnSync("rg", [...params, where], {
+    encoding: "utf8",
+  });
+  if (rg.error) {
+    console.error(rg.error);
+    return;
+  }
+} catch (e) {}
 
-var rg = spawnSync("rg", [...params, where], {
-  encoding: "utf8",
-});
+if (!rg.stdout) {
+  NexssStdout.nxsStop = true;
+  nxsError("There was ");
+  process.stdout.write(JSON.stringify(NexssStdout));
+}
 
-const r = rg.stdout.trim();
+const r = rg.stdout && rg.stdout.trim();
 
 if (r) {
   result = r.split("\n");
@@ -132,10 +143,10 @@ if (r) {
 } else {
   // nxsError("There was an error:");
   NexssStdout.FSFindTotal = 0;
-  if (rg.stderr.startsWith("unrecognized file type:")) {
+  if (rg.stderr && rg.stderr.startsWith("unrecognized file type:")) {
     nxsInfo(require("child_process").execSync("rg --type-list").toString());
     nxsError("Above is the list of available types. (Ripgrep)");
-  } else if (rg.stderr.indexOf("USAGE:") > -1) {
+  } else if (rg.stderr && rg.stderr.indexOf("USAGE:") > -1) {
     nxsError(rg.stderr.split("USAGE:")[0]);
   }
 }
