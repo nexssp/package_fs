@@ -18,16 +18,26 @@ if (NexssStdout.nxsIn.length < 2) {
   nxsError(`Enter destination which Links points to.\n${example}`);
   NexssStdout.nxsStop = true;
   process.stdout.write(JSON.stringify(NexssStdout));
+  return;
 }
 const fs = require("fs");
 
-const source = `${NexssStdout.cwd}/${NexssStdout.nxsIn[0]}`;
-const destination = `${NexssStdout.cwd}/${NexssStdout.nxsIn[1]}`;
+const source = `${NexssStdout.cwd}/${
+  NexssStdout.nxsIn[0].startsWith("./")
+    ? NexssStdout.nxsIn[0].substring(2)
+    : NexssStdout.nxsIn[0]
+}`;
+const destination = `${NexssStdout.cwd}/${
+  NexssStdout.nxsIn[1].startsWith("./")
+    ? NexssStdout.nxsIn[1].substring(2)
+    : NexssStdout.nxsIn[1]
+}`;
 
 if (!fs.existsSync(destination)) {
   nxsError(`Destination not found: ${destination}.`);
   NexssStdout.nxsStop = true;
   process.stdout.write(JSON.stringify(NexssStdout));
+  return;
 }
 
 fs.symlinkSync(destination, source);
