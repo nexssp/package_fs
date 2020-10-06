@@ -22,16 +22,24 @@ if (NexssStdout.nxsIn.length < 2) {
 }
 const fs = require("fs");
 
-const source = `${NexssStdout.cwd}/${
+const source = `${
   NexssStdout.nxsIn[0].startsWith("./")
     ? NexssStdout.nxsIn[0].substring(2)
     : NexssStdout.nxsIn[0]
 }`;
-const destination = `${NexssStdout.cwd}/${
+let destination = `${
   NexssStdout.nxsIn[1].startsWith("./")
     ? NexssStdout.nxsIn[1].substring(2)
     : NexssStdout.nxsIn[1]
 }`;
+
+if (!require("path").isAbsolute(destination)) {
+  destination = `${NexssStdout.cwd}/${destination}`;
+}
+
+if (!require("path").isAbsolute(source)) {
+  source = `${NexssStdout.cwd}/${source}`;
+}
 
 if (!fs.existsSync(destination)) {
   nxsError(`Destination not found: ${destination}.`);
