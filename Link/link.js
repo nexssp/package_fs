@@ -22,7 +22,7 @@ if (NexssStdout.nxsIn.length < 2) {
 }
 const fs = require("fs");
 
-const source = `${
+let source = `${
   NexssStdout.nxsIn[0].startsWith("./")
     ? NexssStdout.nxsIn[0].substring(2)
     : NexssStdout.nxsIn[0]
