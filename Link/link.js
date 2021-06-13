@@ -8,10 +8,10 @@ const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js
 let NexssStdout = NexssIn();
 const example =
   " eg. nexss FS/Link /usr/bin/mylink /this/is/my/destination/file";
-if (!NexssStdout.nxsIn) {
+if (!NexssStdout.nxsIn || NexssStdout.nxsIn === "undefined") {
   nxsError(`Enter Link and Destination\n${example}`);
-  NexssStdout.nxsStop = true;
   process.stdout.write(JSON.stringify(NexssStdout));
+  process.exit(1);
 }
 
 if (NexssStdout.nxsIn.length < 2) {
