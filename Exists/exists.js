@@ -13,32 +13,39 @@ const fs = require("fs");
 const path = require("path");
 let notExistsFiles = [];
 let existsFiles = [];
-fileOrFolder.forEach((f) => {
-  fx = f;
-  if (!path.isAbsolute(fx)) {
-    fx = path.join(NexssStdout.cwd, fx);
-  }
-  const exists = fs.existsSync(fx);
 
-  if (!exists) {
-    notExistsFiles.push(f);
-  } else {
-    existsFiles.push(f);
-  }
-});
-if (notExistsFiles.length > 0) {
-  // NexssStdout.nxsStopReason = `FS/Exists: File(s)/Folder(s) are not there:\n${notExistsFiles.join(
-  //   ", "
-  // )}`;
-  // NexssStdout.nxsStop = true;
-  if (!NexssStdout["notExists"]) {
-    NexssStdout["notExists"] = [];
-  }
-  NexssStdout["notExists"] = notExistsFiles;
-}
+if (!fileOrFolder) {
+  NexssStdout.nxsStop = true;
+  NexssStdout.nxsStopReason =
+    "FS/Exists needs at least one argument file or directory";
+} else {
+  fileOrFolder.forEach((f) => {
+    fx = f;
+    if (!path.isAbsolute(fx)) {
+      fx = path.join(NexssStdout.cwd, fx);
+    }
+    const exists = fs.existsSync(fx);
 
-if (existsFiles.length > 0) {
-  NexssStdout[NexssStdout.resultField_1] = existsFiles;
+    if (!exists) {
+      notExistsFiles.push(f);
+    } else {
+      existsFiles.push(f);
+    }
+  });
+  if (notExistsFiles.length > 0) {
+    // NexssStdout.nxsStopReason = `FS/Exists: File(s)/Folder(s) are not there:\n${notExistsFiles.join(
+    //   ", "
+    // )}`;
+    // NexssStdout.nxsStop = true;
+    if (!NexssStdout["notExists"]) {
+      NexssStdout["notExists"] = [];
+    }
+    NexssStdout["notExists"] = notExistsFiles;
+  }
+
+  if (existsFiles.length > 0) {
+    NexssStdout[NexssStdout.resultField_1] = existsFiles;
+  }
 }
 
 delete NexssStdout.resultField_1;

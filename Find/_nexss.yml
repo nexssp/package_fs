@@ -10,7 +10,7 @@ commands:
       command-DEBIAN: curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && dpkg -i ripgrep_11.0.2_amd64.deb
       command-CENTOS: yum install -y yum-utils && yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo && yum install -y ripgrep
       command-AMAZON: yum install -y yum-utils && yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo && yum install -y ripgrep
-      command: apt-get install -y ripgrep
+      command: curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && dpkg -i ripgrep_11.0.2_amd64.deb && apt-get install -y ripgrep
 
   darwin: # MacOS
     - name: init

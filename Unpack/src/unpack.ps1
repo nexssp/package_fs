@@ -54,7 +54,8 @@ foreach ($sourceFile in $inFieldValue_1) {
     }
     $extractedPaths += $targetPath 
 } 
-
-$NexssStdout | Add-Member -Force -NotePropertyMembers  @{"$resultField_1" = $extractedPaths }
+if($extractedPaths){
+    $NexssStdout | Add-Member -Force -NotePropertyMembers  @{"$resultField_1" = $extractedPaths }
+}
 
 . "$($env:NEXSS_PACKAGES_PATH)/Nexss/Lib/NexssOut.ps1"

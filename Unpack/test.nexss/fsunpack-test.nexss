@@ -3,4 +3,4 @@ $# --file=testPack-src.tar.gz // define file variable
 FS/Unpack ${file}
 FS/Exists // this commands take parameter from previous result (nxsOut)
 Output/End --_if="${nxsOut}" "FS/Unpack success! ${file}, ${nxsOut.join(',')}" --_type="ok"
-Output/End --_ifNot="${nxsOut}" "FS/Unpack failed ${file}" --_type="warn"
+// Output/End --_ifNot="${nxsOut}" "FS/Unpack failed ${file}" --_type="warn"
