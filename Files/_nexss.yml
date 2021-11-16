@@ -1,0 +1,4 @@
+name: FS/Files
+debug: false
+files:
+  - name: src/files.js
