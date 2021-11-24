@@ -66,9 +66,10 @@ const inspect = require("util").inspect;
 if (NexssStdout._dry) {
   nxsInfo(`_dry option enabled, nothing will be copied.`);
   console.log(inspect(prepared));
-  NexssStdout.nxsStop = true;
-  process.stdout.write(JSON.stringify(NexssStdout));
-  process.exit(0);
+  // NexssStdout.nxsStop = true;
+  // process.stdout.write(JSON.stringify(NexssStdout));
+  process.exitCode = 1;
+  return;
 }
 let rimraf;
 if (NexssStdout._delete) {
@@ -76,9 +77,11 @@ if (NexssStdout._delete) {
     nxsError(
       `To delete sources during copy you MUST put --_delete and --_sure`
     );
-    NexssStdout.nxsStop = true;
-    process.stdout.write(JSON.stringify(NexssStdout));
-    process.exit(0);
+    // NexssStdout.nxsStop = true;
+    // process.stdout.write(JSON.stringify(NexssStdout));
+    // process.exit(0);
+    process.exitCode = 1;
+    return;
   }
   rimraf = require("rimraf");
 }

@@ -16,8 +16,9 @@ if (!NexssStdout.nxsIn || NexssStdout.nxsIn === "undefined") {
 
 if (NexssStdout.nxsIn.length < 2) {
   nxsError(`Enter destination which Links points to.\n${example}`);
-  NexssStdout.nxsStop = true;
-  process.stdout.write(JSON.stringify(NexssStdout));
+  // NexssStdout.nxsStop = true;
+  // process.stdout.write(JSON.stringify(NexssStdout));
+  process.exitCode = 1;
   return;
 }
 const fs = require("fs");
@@ -43,8 +44,10 @@ if (!require("path").isAbsolute(source)) {
 
 if (!fs.existsSync(destination)) {
   nxsError(`Destination not found: ${destination}.`);
-  NexssStdout.nxsStop = true;
-  process.stdout.write(JSON.stringify(NexssStdout));
+  // NexssStdout.nxsStop = true;
+  // process.stdout.write(JSON.stringify(NexssStdout));
+
+  process.exitCode = 1;
   return;
 }
 

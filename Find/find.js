@@ -125,9 +125,11 @@ process.stdin.on("data", function (chunk) {
   } catch (e) {}
 
   if (!rg.stdout) {
-    NexssStdout.nxsStop = true;
+    // NexssStdout.nxsStop = true;
     nxsError("There was an error: ripgrep is not installed?");
-    process.stdout.write(JSON.stringify(NexssStdout));
+    // process.stdout.write(JSON.stringify(NexssStdout));
+    process.exitCode = 1;
+    return;
   }
 
   const r = rg.stdout && rg.stdout.trim();
@@ -145,6 +147,8 @@ process.stdin.on("data", function (chunk) {
         })
         .map((a) => JSON.parse(a))
         .map((e) => normalize(e.data.path.text));
+
+      result = [...new Set(result)];
     }
 
     NexssStdout[NexssStdout.resultField_1] = result;
