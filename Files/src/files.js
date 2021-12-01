@@ -23,9 +23,12 @@ if (NexssStdout.FSGetPath) {
   }
 }
 
-function filterEnts(arr, types) {
-  if (!Array.isArray(types)) {
-    types = types.split(",");
+function filterEnts(arr, t) {
+  let types;
+  if (!Array.isArray(t)) {
+    types = t.split(",");
+  } else {
+    types = t;
   }
 
   return arr.filter((e) => {
@@ -57,12 +60,12 @@ const getDirectories = async (source, filter) => {
   process.stdout.write(JSON.stringify(NexssStdout));
 };
 
-let inFileTypes = NexssStdout._inFileTypes;
+let inFileTypes = NexssStdout._types;
 
 (() => {
-  if (inFileTypes && !Array.isArray(inFileTypes)) {
-    inFileTypes = [inFileTypes];
-  }
+  // if (inFileTypes && !Array.isArray(inFileTypes)) {
+  //   inFileTypes = [inFileTypes];
+  // }
 
   getDirectories(Field_Value_1, inFileTypes);
 })();
